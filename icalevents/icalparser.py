@@ -1,7 +1,7 @@
 """
 Parse iCal data to Events.
 """
-
+import copy
 # for UID generation
 from faulthandler import is_enabled
 from random import randint
@@ -69,6 +69,8 @@ class Event:
         self.floating = None
         self.status = None
         self.url = None
+
+        self.component = None
 
     def time_left(self, time=None):
         """
@@ -177,7 +179,7 @@ def create_event(component, strict):
     """
 
     event = Event()
-
+    event.component = copy.deepcopy(component)
     event.start = component.get("dtstart").dt
     # The RFC specifies that the TZID parameter must be specified for datetime or time
     # Otherwise we set a default timezone (if only one is set with VTIMEZONE) or utc
